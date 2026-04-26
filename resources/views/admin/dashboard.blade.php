@@ -116,8 +116,8 @@
                         <th class="pb-3 text-left">Trainer</th>
                         <th class="pb-3 text-left">Session</th>
                         <th class="pb-3 text-left">Date</th>
-                        <th class="pb-3 text-right">Amount</th>
-                        <th class="pb-3 text-left">Status</th>
+                        <th class="pb-3 pr-6 text-right">Amount</th>
+                        <th class="pb-3 pl-6 text-left">Status</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-app-border">
@@ -127,8 +127,8 @@
                             <td class="py-3 text-gray-300">{{ $booking->trainer->full_name }}</td>
                             <td class="py-3 text-gray-300">{{ $booking->sessionType->title }}</td>
                             <td class="py-3 text-gray-400">{{ $booking->booking_date->format('M d, Y') }}</td>
-                            <td class="py-3 text-right">₱{{ number_format($booking->amount, 2) }}</td>
-                            <td class="py-3">
+                            <td class="py-3 pr-6 text-right">₱{{ number_format($booking->amount, 2) }}</td>
+                            <td class="py-3 pl-6">
                                 @php
                                     $statusClasses = [
                                         'pending' => 'border-amber-500/20 bg-amber-500/10 text-amber-400',

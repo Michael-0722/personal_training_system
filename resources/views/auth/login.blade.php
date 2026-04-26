@@ -13,15 +13,16 @@
     <main class="auth-layout">
         <section class="auth-left">
             <div class="auth-brand">
-                <div class="brand-mark auth-brand-mark">
-                    <a href="{{ route('welcome') }}" class="auth-brand-link">
+                <a href="{{ route('welcome') }}" class="auth-brand-link">
+                    <div class="brand-mark auth-brand-mark">
                         <img src="{{ asset('logo.png') }}" alt="Trainify" class="brand-icon auth-logo"
                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
                         <svg class="brand-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M4 12h4l3-9 4 18 2-9h3" />
                         </svg>
-                </div>
+                    </div>
+                </a>
                 <span class="auth-brand-name font-heading">Traini<span class="text-brand">fy</span></span>
             </div>
 
