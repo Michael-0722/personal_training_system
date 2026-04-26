@@ -22,6 +22,16 @@ class TrainerProfile extends Model
         ];
     }
 
+    protected function getSpecializationsAttribute($value): array
+    {
+        return $value ? (array) json_decode($value, true) : [];
+    }
+
+    protected function getTagsAttribute($value): array
+    {
+        return $value ? (array) json_decode($value, true) : [];
+    }
+
     // ── Relationships ──────────────────────
     public function user()
     {

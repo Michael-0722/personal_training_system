@@ -13,6 +13,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Render runs Laravel behind a proxy; trust forwarded headers for correct HTTPS URL generation.
+        $middleware->trustProxies(at: '*');
+
         $middleware->alias([
             'role' => Role::class,
             'trainer.approved' => TrainerApproved::class,

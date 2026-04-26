@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('bio')->nullable();
-            $table->json('specializations')->default('[]');
-            $table->json('tags')->default('[]');
+            $table->json('specializations')->nullable();
+            $table->json('tags')->nullable();
             $table->decimal('rating', 3, 2)->default(0.00);
             $table->unsignedInteger('review_count')->default(0);
             $table->enum('approval_status', ['pending', 'approved', 'rejected'])->default('pending');
