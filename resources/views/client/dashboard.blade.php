@@ -22,7 +22,7 @@
                 </svg>
             </div>
             <p class="mb-1 text-sm text-gray-400">Active Bookings</p>
-            <p class="font-heading text-3xl font-bold">{{ $activeBookings }}</p>
+            <p class="font-heading text-3xl font-bold text-right">{{ $activeBookings }}</p>
         </div>
 
         <div class="rounded-2xl border border-app-border bg-surface p-6">
@@ -34,7 +34,7 @@
                 </svg>
             </div>
             <p class="mb-1 text-sm text-gray-400">Completed</p>
-            <p class="font-heading text-3xl font-bold">{{ $completedCount }}</p>
+            <p class="font-heading text-3xl font-bold text-right">{{ $completedCount }}</p>
         </div>
 
         <div class="rounded-2xl border border-app-border bg-surface p-6">
@@ -46,7 +46,7 @@
                 </svg>
             </div>
             <p class="mb-1 text-sm text-gray-400">Total Spent</p>
-            <p class="font-heading text-3xl font-bold">₱{{ number_format($totalSpent, 2) }}</p>
+            <p class="font-heading text-3xl font-bold text-right">₱{{ number_format($totalSpent, 2) }}</p>
         </div>
     </div>
 

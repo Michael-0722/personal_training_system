@@ -20,7 +20,7 @@
         </form>
     </div>
 
-    <div class="space-y-4">
+    <div id="client-bookings" class="space-y-4">
         @forelse($bookings as $booking)
             <div class="rounded-2xl border border-app-border bg-surface p-6">
                 <div class="flex items-center justify-between">
@@ -98,5 +98,5 @@
         @endforelse
     </div>
 
-    <div class="mt-6">{{ $bookings->links() }}</div>
+    <div class="mt-6">{{ $bookings->fragment('client-bookings')->links() }}</div>
 @endsection

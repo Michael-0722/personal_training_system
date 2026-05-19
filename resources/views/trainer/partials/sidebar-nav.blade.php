@@ -43,13 +43,6 @@
                 '<path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9a6 6 0 10-12 0v.75a8.967 8.967 0 01-2.311 6.022c1.733.64 3.56 1.08 5.454 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />',
         ],
         [
-            'label' => 'Calendar',
-            'route' => 'trainer.calendar.index',
-            'matches' => ['trainer.calendar.*'],
-            'icon' =>
-                '<path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />',
-        ],
-        [
             'label' => 'Settings',
             'route' => 'trainer.settings.index',
             'matches' => ['trainer.settings.*'],

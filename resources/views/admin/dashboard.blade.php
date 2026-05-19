@@ -21,7 +21,7 @@
                 </div>
 
                 <p class="mb-1 text-sm text-gray-400">{{ $stat['label'] }}</p>
-                <p class="font-heading text-[2.5rem] font-bold leading-none">{{ $stat['value'] }}</p>
+                <p class="font-heading text-[2.5rem] font-bold leading-none text-right">{{ $stat['value'] }}</p>
             </div>
         @endforeach
     </div>
@@ -105,7 +105,7 @@
     </div>
 
     {{-- Recent Bookings --}}
-    <div class="rounded-2xl border border-app-border bg-surface p-6">
+    <div id="admin-recent-bookings" class="rounded-2xl border border-app-border bg-surface p-6">
         <h2 class="mb-6 text-xl font-bold font-heading">Recent Bookings</h2>
 
         <div class="overflow-x-auto">
@@ -121,7 +121,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-app-border">
-                    @foreach ($recentBookings as $booking)
+                    @forelse ($recentBookings as $booking)
                         <tr>
                             <td class="py-3 font-medium">{{ $booking->client->full_name }}</td>
                             <td class="py-3 text-gray-300">{{ $booking->trainer->full_name }}</td>
@@ -145,9 +145,14 @@
                                 </span>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="6" class="py-12 text-center text-gray-500">No recent bookings.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
+        <div class="mt-4">{{ $recentBookings->fragment('admin-recent-bookings')->links() }}</div>
     </div>
 @endsection

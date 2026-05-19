@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <p class="text-sm text-gray-400 mb-1">{{ $stat['label'] }}</p>
-                <p class="text-3xl font-bold font-heading">{{ $stat['value'] }}</p>
+                <p class="text-3xl font-bold font-heading text-right">{{ $stat['value'] }}</p>
             </div>
         @endforeach
     </div>

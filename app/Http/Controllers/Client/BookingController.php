@@ -19,8 +19,21 @@ class BookingController extends Controller
         abort_unless($session->trainerProfile->user_id === $trainer->id, 404);
         abort_unless($session->is_active, 404);
         $availabilities = $trainer->trainerProfile->availabilities()->get();
+        $availabilitySlots = $availabilities->map(function ($slot) {
+            return [
+                'day' => $slot->day_of_week,
+                'start' => $slot->start_time,
+                'end' => $slot->end_time,
+            ];
+        })->values();
+        $hasActiveBooking = Booking::query()
+            ->where('client_id', Auth::id())
+            ->where('trainer_id', $trainer->id)
+            ->where('session_type_id', $session->id)
+            ->whereIn('status', ['pending', 'confirmed'])
+            ->exists();
 
-        return view('client.book', compact('trainer', 'session', 'availabilities'));
+        return view('client.book', compact('trainer', 'session', 'availabilities', 'availabilitySlots', 'hasActiveBooking'));
     }
 
     public function store(Request $request, User $trainer, SessionType $session)
@@ -39,26 +52,53 @@ class BookingController extends Controller
 
         $booking = null;
         $validationError = null;
+        $validationField = null;
+        $clientId = Auth::id();
 
         DB::transaction(function () use (
             &$booking,
             &$validationError,
+            &$validationField,
             $trainer,
             $session,
             $bookingDate,
             $requestedStart,
             $requestedEnd,
-            $data
+            $data,
+            $clientId
         ) {
             // Lock trainer row so booking attempts for this trainer are serialized.
             User::query()->whereKey($trainer->id)->lockForUpdate()->first();
             SessionType::query()->whereKey($session->id)->lockForUpdate()->first();
 
-            $isInsideAvailability = $trainer->trainerProfile
+            $existingBooking = Booking::query()
+                ->where('client_id', $clientId)
+                ->where('trainer_id', $trainer->id)
+                ->where('session_type_id', $session->id)
+                ->whereIn('status', ['pending', 'confirmed'])
+                ->lockForUpdate()
+                ->exists();
+
+            if ($existingBooking) {
+                $validationField = 'booking_date';
+                $validationError = 'You already have an active booking for this session.';
+
+                return;
+            }
+
+            $daySlots = $trainer->trainerProfile
                 ->availabilities()
                 ->where('day_of_week', $bookingDate->dayOfWeek)
-                ->get()
-                ->contains(function ($slot) use ($requestedStart, $requestedEnd) {
+                ->get();
+
+            if ($daySlots->isEmpty()) {
+                $validationField = 'booking_date';
+                $validationError = 'This trainer has no availability on the selected date.';
+
+                return;
+            }
+
+            $isInsideAvailability = $daySlots->contains(function ($slot) use ($requestedStart, $requestedEnd) {
                     $slotStart = Carbon::createFromFormat('H:i:s', $slot->start_time);
                     $slotEnd = Carbon::createFromFormat('H:i:s', $slot->end_time);
                     $reqStartTime = Carbon::createFromFormat('H:i:s', $requestedStart->format('H:i:s'));
@@ -69,6 +109,7 @@ class BookingController extends Controller
                 });
 
             if (! $isInsideAvailability) {
+                $validationField = 'booking_time';
                 $validationError = 'Selected time is outside this trainer\'s availability.';
 
                 return;
@@ -108,6 +149,7 @@ class BookingController extends Controller
             });
 
             if ($hasOverlap) {
+                $validationField = 'booking_time';
                 $validationError = 'This time overlaps with another booking. Please choose a different slot.';
 
                 return;
@@ -131,6 +173,7 @@ class BookingController extends Controller
                 });
 
                 if ($bookingsInRequestedGroupSlot->count() >= $effectiveMaxParticipants) {
+                    $validationField = 'booking_time';
                     $validationError = 'This group slot is already full. Please choose a different time.';
 
                     return;
@@ -150,7 +193,9 @@ class BookingController extends Controller
         });
 
         if ($validationError !== null) {
-            return back()->withErrors(['booking_time' => $validationError])->withInput();
+            $field = $validationField ?? 'booking_time';
+
+            return back()->withErrors([$field => $validationError])->withInput();
         }
 
         // Notify trainer
@@ -162,6 +207,6 @@ class BookingController extends Controller
         ]);
 
         return redirect()->route('client.bookings.index')
-            ->with('success', 'Booking request sent! Awaiting trainer confirmation.');
+            ->with('success', 'Payment successful. Booking request sent! Awaiting trainer confirmation.');
     }
 }

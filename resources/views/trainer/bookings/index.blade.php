@@ -17,7 +17,7 @@
             <button type="submit" class="px-4 py-2 bg-brand rounded-xl text-white hover:bg-brand-light">Filter</button>
         </form>
     </div>
-    <div class="bg-surface rounded-2xl border border-app-border overflow-hidden">
+    <div id="trainer-bookings" class="bg-surface rounded-2xl border border-app-border overflow-hidden">
         <table class="w-full text-sm">
             <thead class="bg-surface-light text-gray-400 text-xs uppercase">
                 <tr>
@@ -64,5 +64,5 @@
             </tbody>
         </table>
     </div>
-    <div class="mt-6">{{ $bookings->links() }}</div>
+    <div class="mt-6">{{ $bookings->fragment('trainer-bookings')->links() }}</div>
 @endsection

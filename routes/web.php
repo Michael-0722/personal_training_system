@@ -38,6 +38,7 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/clients', [Admin\ClientsController::class, 'index'])->name('clients.index');
         Route::patch('/clients/{user}/suspend', [Admin\ClientsController::class, 'suspend'])->name('clients.suspend');
         Route::get('/payouts', [Admin\PayoutsController::class, 'index'])->name('payouts.index');
+        Route::post('/payouts/process', [Admin\PayoutsController::class, 'processBulk'])->name('payouts.processBulk');
         Route::post('/payouts/{transaction}/process', [Admin\PayoutsController::class, 'process'])->name('payouts.process');
         Route::get('/notifications', [Admin\NotificationsController::class, 'index'])->name('notifications.index');
         Route::patch('/notifications/{n}/read', [Admin\NotificationsController::class, 'markRead'])->name('notifications.read');

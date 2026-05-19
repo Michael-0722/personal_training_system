@@ -14,7 +14,7 @@
         </form>
     </div>
 
-    <div class="overflow-hidden rounded-2xl border border-app-border bg-surface">
+    <div id="admin-clients" class="overflow-hidden rounded-2xl border border-app-border bg-surface">
         <table class="w-full text-sm">
             <thead class="bg-surface-light text-xs uppercase text-gray-400">
                 <tr>
@@ -58,5 +58,5 @@
         </table>
     </div>
 
-    <div class="mt-6">{{ $clients->links() }}</div>
+    <div class="mt-6">{{ $clients->fragment('admin-clients')->links() }}</div>
 @endsection

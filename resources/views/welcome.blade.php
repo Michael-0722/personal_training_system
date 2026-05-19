@@ -31,10 +31,19 @@
             </a>
 
             <div class="flex items-center gap-2 sm:gap-3">
-                <a href="{{ route('login') }}"
-                    class="nav-link border border-white/10 bg-white/5 transition-[background-color,border-color,box-shadow,color,filter] hover:border-brand/70 hover:bg-brand/25 hover:text-white hover:brightness-110 hover:shadow-[0_0_0_2px_rgba(24,169,107,0.35),0_0_26px_rgba(24,169,107,0.30),0_16px_30px_rgba(0,0,0,0.30)]">Sign
-                    In</a>
-                <a href="{{ route('register') }}" class="btn btn-primary btn-sm">Get Started</a>
+                @auth
+                    <a href="{{ route(auth()->user()->role . '.dashboard') }}"
+                        class="nav-link border border-white/10 bg-white/5 transition-[background-color,border-color,box-shadow,color,filter] hover:border-brand/70 hover:bg-brand/25 hover:text-white hover:brightness-110 hover:shadow-[0_0_0_2px_rgba(24,169,107,0.35),0_0_26px_rgba(24,169,107,0.30),0_16px_30px_rgba(0,0,0,0.30)]">Dashboard</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-primary btn-sm">Logout</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}"
+                        class="nav-link border border-white/10 bg-white/5 transition-[background-color,border-color,box-shadow,color,filter] hover:border-brand/70 hover:bg-brand/25 hover:text-white hover:brightness-110 hover:shadow-[0_0_0_2px_rgba(24,169,107,0.35),0_0_26px_rgba(24,169,107,0.30),0_16px_30px_rgba(0,0,0,0.30)]">Sign
+                        In</a>
+                    <a href="{{ route('register') }}" class="btn btn-primary btn-sm">Get Started</a>
+                @endauth
             </div>
         </div>
     </nav>
@@ -61,17 +70,34 @@
                     </p>
 
                     <div class="hero-actions">
-                        <a href="{{ route('register') }}" class="btn btn-primary">
-                            Get Started
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24">
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </a>
-                        <a href="{{ route('login') }}"
-                            class="btn btn-secondary border border-white/10 bg-white/5 transition-[background-color,border-color,box-shadow,color,filter] hover:border-brand/70 hover:bg-brand/25 hover:text-white hover:brightness-110 hover:shadow-[0_0_0_2px_rgba(24,169,107,0.35),0_0_28px_rgba(24,169,107,0.30),0_16px_30px_rgba(0,0,0,0.30)]">
-                            Sign In
-                        </a>
+                        @auth
+                            <a href="{{ route(auth()->user()->role . '.dashboard') }}" class="btn btn-primary">
+                                Go to Dashboard
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit"
+                                    class="btn btn-secondary border border-white/10 bg-white/5 transition-[background-color,border-color,box-shadow,color,filter] hover:border-brand/70 hover:bg-brand/25 hover:text-white hover:brightness-110 hover:shadow-[0_0_0_2px_rgba(24,169,107,0.35),0_0_28px_rgba(24,169,107,0.30),0_16px_30px_rgba(0,0,0,0.30)]">
+                                    Logout
+                                </button>
+                            </form>
+                        @else
+                            <a href="{{ route('register') }}" class="btn btn-primary">
+                                Get Started
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                            <a href="{{ route('login') }}"
+                                class="btn btn-secondary border border-white/10 bg-white/5 transition-[background-color,border-color,box-shadow,color,filter] hover:border-brand/70 hover:bg-brand/25 hover:text-white hover:brightness-110 hover:shadow-[0_0_0_2px_rgba(24,169,107,0.35),0_0_28px_rgba(24,169,107,0.30),0_16px_30px_rgba(0,0,0,0.30)]">
+                                Sign In
+                            </a>
+                        @endauth
                     </div>
                 </div>
 

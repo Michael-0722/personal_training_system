@@ -46,7 +46,7 @@
         </button>
     </form>
 
-    <div class="browse-trainer-grid grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div id="browse-trainers" class="browse-trainer-grid grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         @forelse($trainers as $trainer)
             <a href="{{ route('client.trainer.profile', $trainer) }}"
                 class="browse-trainer-card group block rounded-2xl border border-app-border bg-surface p-6 transition-all hover:border-brand/40">
@@ -92,7 +92,5 @@
     </div>
 
     {{-- Pagination --}}
-    <div class="mt-8">
-        {{ $trainers->links() }}
-    </div>
+    <div class="mt-8">{{ $trainers->fragment('browse-trainers')->links() }}</div>
 @endsection

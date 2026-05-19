@@ -31,8 +31,7 @@ SUM(commission_amount) as commission"
             ->get();
         $recentBookings = Booking::with(['client', 'trainer', 'sessionType'])
             ->latest()
-            ->take(10)
-            ->get();
+            ->paginate(10);
 
         return view('admin.dashboard', compact(
             'totalTrainers', 'totalClients',

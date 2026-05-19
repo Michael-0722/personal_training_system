@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-    <div class="space-y-4">
+    <div id="trainer-notifications" class="space-y-4">
         @forelse($notifications as $n)
             <div class="rounded-2xl border border-app-border bg-surface p-6 {{ $n->is_read ? 'opacity-60' : '' }}">
                 <div class="flex items-start justify-between gap-4">
@@ -40,5 +40,5 @@
         @endforelse
     </div>
 
-    <div class="mt-6">{{ $notifications->links() }}</div>
+    <div class="mt-6">{{ $notifications->fragment('trainer-notifications')->links() }}</div>
 @endsection
